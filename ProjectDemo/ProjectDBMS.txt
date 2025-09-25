@@ -1,0 +1,30 @@
+CREATE TABLE products1 (
+    id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR2(100),
+    price NUMBER(10, 2),
+    description VARCHAR2(1000),
+    image_name VARCHAR2(255),
+    image_data BLOB
+);
+
+CREATE TABLE users1 (
+    id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username VARCHAR2(50) UNIQUE NOT NULL,
+    password VARCHAR2(100) NOT NULL,
+    role VARCHAR2(20) DEFAULT 'customer' -- 'admin' or 'customer'
+);
+
+CREATE TABLE orders1 (
+    id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id NUMBER REFERENCES users1(id),
+    order_date DATE DEFAULT SYSDATE,
+    total NUMBER(10,2)
+);
+
+CREATE TABLE order_items1 (
+    id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    order_id NUMBER REFERENCES orders1(id),
+    product_id NUMBER REFERENCES products1(id),
+    quantity NUMBER DEFAULT 1,
+    price NUMBER(10,2)
+);
